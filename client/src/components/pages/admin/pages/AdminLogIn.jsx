@@ -1,52 +1,78 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AdminLogIn() {
-  const [userInfo, setUserInfo] = useState({
-    userName: " ",
-    userPassword: " ",
+  const [errorDisplay, setErrorDisplay] = useState(false);
+  const [adminData, setAdminData] = useState({
+    admin_user_name: "",
+    admin_user_password: "",
   });
-  const handleUserNameChange = (e) => {
-    setUserInfo({ ...userInfo, userName: e.target.value });
-  };
 
-  const handlePasswordChange = (e) => {
-    setUserInfo({ ...userInfo, userPassword: e.target.value });
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAdminData({
+      ...adminData,
+      [name]: value,
+    });
   };
-  const handleSubmit = () => {
-    console.log("rendering...");
-    localStorage.setItem("adminLoggedIn", true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/admin/login",
+        adminData,
+      );
+      console.log(response.data);
+
+      if (response.data.success) {
+        localStorage.setItem("emipssflo7898709r-u-0m-dolodf46755r", true);
+        navigate("/admin/dashboard");
+      } else {
+        setErrorDisplay(true);
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
-  console.log("component rendered");
   return (
     <>
       <div className="flex h-screen items-center justify-center">
-        {userInfo.userName}
-        {userInfo.userPassword}
         <form
           onSubmit={(e) => {
             e.preventDefault();
           }}
           className="flex flex-col items-center  gap-8 rounded-md    border bg-white p-5"
         >
-          <h1 className="text-4xl">Admin Log In</h1>
+          {errorDisplay ? (
+            <h1 className="text-4xl text-red-500">
+              Admin Credential Not Match
+            </h1>
+          ) : (
+            <h1 className="text-4xl">Admin Log In</h1>
+          )}
           <div className="flex flex-col">
-            <label htmlFor="user">User Name</label>
+            <label htmlFor="user" className={`${errorDisplay?"text-red-500":"text-gray-500"}`}>User Name</label>
             <input
-              id="user"
               type="text"
-              className=" border-b p-2 outline-none transition-all duration-150 ease-linear focus:shadow-md"
-              value={userInfo.userName}
-              onChange={handleUserNameChange}
+              name="admin_user_name"
+              value={adminData.admin_user_name}
+              onChange={handleChange}
+              className={`${errorDisplay?"border-red-300":"border-gray-300"}  border-b p-2 outline-none transition-all duration-150 ease-linear focus:shadow-md`}
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className={`${errorDisplay?"text-red-500":"text-gray-500"}`}>
+              
+              Password</label>
             <input
-              id="password"
-              type="text"
-              className=" border-b p-2 outline-none transition-all duration-150 ease-linear focus:shadow-md"
-              value={userInfo.userPassword}
-              onChange={handlePasswordChange}
+              type="password"
+              name="admin_user_password"
+              value={adminData.admin_user_password}
+              onChange={handleChange}
+              className={` ${errorDisplay?"border-red-300":"border-gray-300"} border-b p-2 outline-none transition-all duration-150 ease-linear focus:shadow-md  `}
             />
           </div>
           <div className="">

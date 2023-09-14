@@ -1,13 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { RiAlignJustify } from "react-icons/ri";
 import { RxCross1 } from "react-icons/rx";
 import Logo from "../../../assets/image/logo.png";
 
-function AdminNav({ onClick }) {
+function AdminNav() {
   const [isClosed, setIsClosed] = useState(true);
+const navigate = useNavigate();
+  const handleLogIn = () => {
+    navigate("/admin/login");
+    localStorage.removeItem("emipssflo7898709r-u-0m-dolodf46755r");
+  };
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+        if (!localStorage.getItem("emipssflo7898709r-u-0m-dolodf46755r")) {
+          localStorage.removeItem("loggedOut");
+          window.location.href = "/"; // Redirect to /home
+        }
+      };
+  
+      window.addEventListener("storage", handleStorageChange);
+  
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }, []);
   return (
     <nav
       className={`sticky top-0 z-50 flex flex-col px-0 sm:flex-col md:flex-row md:bg-[#B9E9FC] md:px-4 md:py-3 `}
@@ -38,7 +57,7 @@ function AdminNav({ onClick }) {
           <li className="my-2 me-auto px-3 py-1  hover:bg-[#a7e6fe]  md:m-0 md:hover:bg-inherit">
             <Link
               className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
-              to="/admin"
+              to="/admin/dashboard"
               onClick={() => {
                 setIsClosed(!isClosed);
               }}
@@ -58,8 +77,9 @@ function AdminNav({ onClick }) {
             </Link>
           </li>
           <li className="my-2 me-auto px-3 py-1  hover:bg-[#a7e6fe]  md:m-0 md:hover:bg-inherit">
-            <button className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
-            onClick={onClick}
+            <button
+              className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
+              onClick={handleLogIn}
             >
               Log out
             </button>

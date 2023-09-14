@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 import { RiAlignJustify } from "react-icons/ri";
 import { RxCross1 } from "react-icons/rx";
@@ -9,7 +8,27 @@ import Logo from "../assets/image/logo.png";
 
 function Nav() {
   const [isClosed, setIsClosed] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState("");
+  let log;
+const handleCheckIsLoggedIn = () => {
+    if (!log) {
+      setLoggedIn("/admin/login");
+    } else {
+      setLoggedIn("/admin/dashboard");
+    }
+  };
+  const handleChange = () => {
+    setIsClosed(!isClosed);
+    handleCheckIsLoggedIn();
+  };
+  useEffect(() => {
+    localStorage.getItem("emipssflo7898709r-u-0m-dolodf46755r")
+      ? (log = true)
+      : (log = false);
+  }, [handleCheckIsLoggedIn.log]);
 
+  
+ 
   return (
     <>
       <nav
@@ -18,9 +37,7 @@ function Nav() {
         <div className="z-50  flex bg-[#B9E9FC] px-4 py-2 md:hidden">
           <button
             className="rounded-md px-3 py-2 text-2xl outline-none hover:bg-[#a7e6fe] focus:ring-2  active:ring-2"
-            onClick={() => {
-              setIsClosed(!isClosed);
-            }}
+            onClick={handleChange}
           >
             {isClosed ? <RiAlignJustify /> : <RxCross1 />}
           </button>
@@ -42,9 +59,7 @@ function Nav() {
               <Link
                 className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
                 to="/"
-                onClick={() => {
-                  setIsClosed(!isClosed);
-                }}
+                onClick={handleChange}
               >
                 Home
               </Link>
@@ -52,10 +67,8 @@ function Nav() {
             <li className="my-2 me-auto px-3 py-1  hover:bg-[#a7e6fe]  md:m-0 md:hover:bg-inherit">
               <Link
                 className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
-                to="/admin"
-                onClick={() => {
-                  setIsClosed(!isClosed);
-                }}
+                to={isLoggedIn}
+                onClick={handleChange}
               >
                 Admin
               </Link>
@@ -64,9 +77,7 @@ function Nav() {
               <Link
                 className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
                 to="/test"
-                onClick={() => {
-                  setIsClosed(!isClosed);
-                }}
+                onClick={handleChange}
               >
                 Test
               </Link>
@@ -75,9 +86,7 @@ function Nav() {
               <Link
                 className=" text-stone-900 outline-none transition-all duration-100 ease-out hover:text-stone-600 focus:ring-2 active:ring-2"
                 to="/log-in"
-                onClick={() => {
-                  setIsClosed(!isClosed);
-                }}
+                onClick={handleChange}
               >
                 Log In
               </Link>
