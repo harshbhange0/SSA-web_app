@@ -9,8 +9,9 @@ import Logo from "../assets/image/logo.png";
 function Nav() {
   const [isClosed, setIsClosed] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState("");
-  let log;
-const handleCheckIsLoggedIn = () => {
+  const [log, setLog] = useState(false);
+
+  const handleCheckIsLoggedIn = () => {
     if (!log) {
       setLoggedIn("/admin/login");
     } else {
@@ -23,12 +24,10 @@ const handleCheckIsLoggedIn = () => {
   };
   useEffect(() => {
     localStorage.getItem("emipssflo7898709r-u-0m-dolodf46755r")
-      ? (log = true)
-      : (log = false);
+      ? (setLog(true))
+      : (setLog (false));
   }, [handleCheckIsLoggedIn.log]);
 
-  
- 
   return (
     <>
       <nav
