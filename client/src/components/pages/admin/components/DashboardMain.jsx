@@ -1,13 +1,14 @@
 import React from "react";
-import ChoosSubject from "./ChoosSubject";
-import TestAdd from "./TestAdd";
+import StudentsDisplay from "./StudentsDisplay";
+import data from "../dataA.js";
 
 function DashboardMain() {
   return (
-    <section>
-      <ChoosSubject />
-      <TestAdd />
-    </section>
+    <div className="container h-full ">
+      <>
+        <StudentsDisplay data={data} />
+      </>
+    </div>
   );
 }
 

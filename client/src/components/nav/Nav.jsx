@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import { RiAlignJustify } from "react-icons/ri";
@@ -8,25 +8,27 @@ import Logo from "../assets/image/logo.png";
 
 function Nav() {
   const [isClosed, setIsClosed] = useState(true);
-  const [isLoggedIn, setLoggedIn] = useState("");
+  const [isLoggedIn, setLoggedIn] = useState();
   const [log, setLog] = useState(false);
 
-  const handleCheckIsLoggedIn = () => {
+  const handleCheckIsLoggedIn = useCallback(() => {
     if (!log) {
       setLoggedIn("/admin/login");
     } else {
       setLoggedIn("/admin/dashboard");
     }
-  };
+  }, [log]);
+  
   const handleChange = () => {
     setIsClosed(!isClosed);
     handleCheckIsLoggedIn();
   };
+  
   useEffect(() => {
     localStorage.getItem("emipssflo7898709r-u-0m-dolodf46755r")
-      ? (setLog(true))
-      : (setLog (false));
-  }, [handleCheckIsLoggedIn.log]);
+      ? setLog(true)
+      : setLog(false);
+  }, []);
 
   return (
     <>
@@ -98,3 +100,4 @@ function Nav() {
 }
 
 export default Nav;
+
