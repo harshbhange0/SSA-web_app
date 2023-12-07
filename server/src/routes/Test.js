@@ -1,102 +1,49 @@
 import express from "express";
-import Tests from "../models/TestS.js";
+import Test from "../models/test.models.js";
 
-const Test = express.Router();
-//get all test
-Test.get("/test/all", async (req, res) => {
+const testRoute = express.Router();
+
+testRoute.post("/add-test/:admin_objId", async (req, res) => {
   try {
-    const test = await Tests.find();
-    res.json({
-      data: test,
+    const { admin_objId } = req.params;
+    const {
+      test_subject,
+      test_title,
+      test_time_Limit,
+      test_run_time,
+      test_marks,
+      questions,
+    } = req.body;
+
+    const newTest = new Test({
+      test_subject,
+      test_title,
+      test_author: admin_objId,
+      test_time_Limit,
+      test_run_time,
+      test_marks,
+      questions,
     });
-  } catch (error) {
-    console.error("Error fetching admins:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching admins",
-      error: error.message,
-    });
-  }
-});
-//add a test
-Test.post("/api/tests", async (req, res) => {
-  try {
-    const newTest = new Tests(req.body);
+
+    // Save the new Test document
     const savedTest = await newTest.save();
-    res.status(201).json(savedTest);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-//find a specific test question object
-Test.get("/api/find/:id", async (req, res) => {
-  const testId = req.params.id;
-  try {
-    // Assuming that Test is your Mongoose model for tests
-    const savedTest = await Tests.findOne({ "testQuestions._id": testId });
 
-    if (!savedTest) {
-      return res.status(404).json({
-        success: false,
-        message: "Test not found",
-      });
-    }
+    // Populate the test_author field with the corresponding admin document
+    const populatedTest = await Test.findById(savedTest._id).populate("test_author");
 
-    // Find the specific test question within the array
-    const testQuestion = savedTest.testQuestions.find(
-      (question) => question._id.toString() === testId
-    );
-
-    if (!testQuestion) {
-      return res.status(404).json({
-        success: false,
-        message: "Test question not found",
-      });
-    }
-
-    res.json(testQuestion);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-});
-
-Test.put('/api/tests/update/:testId', async (req, res) => {
-  const testId = req.params.testId;
-  const { question } = req.body;
-  try {
-    const updatedTest = {
-      question,
-    };
-
-    // Use findByIdAndUpdate to update the document by its ID
-    const update = await Tests.findByIdAndUpdate(testId, updatedTest, {
-      new: true, // Return the updated document
-    });
-
-    if (!update) {
-      return res.status(404).json({
-        success: false,
-        message: "Test not found",
-      });
-    }
-
-    res.json({
+    return res.json({
       success: true,
-      message: "Test updated",
-      data: update,
+      message: "Test added successfully",
+      data: populatedTest,
     });
   } catch (error) {
-    console.error("Error updating Test:", error);
-    res.status(500).json({
+    console.error("Error during test creation:", error);
+    return res.json({
       success: false,
-      message: "Internal server error",
+      message: "Something went wrong with test creation",
+      data: "",
     });
   }
 });
 
-export { Test };
+export default testRoute;

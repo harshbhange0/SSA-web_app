@@ -1,27 +1,30 @@
-import express from 'express';
-import cors from 'cors'; // Import the cors middleware
-import {AuthAdminS ,AuthAdminSLogIn }from './routes/AuthAdminS.js';
-import AllAdmin from './routes/AllAdmin.js';
-import connectionMongoDB from './db/DBConnect.js';
-import { Test } from './routes/Test.js';
+import express from "express";
+
+import cors from "cors"; // Import the cors middleware
+import connectionMongoDB from "./db/DBConnect.js";
+import adminRoute from "./routes/admin.js";
+import testRoute from "./routes/test.js";
 
 const app = express();
 
 // Configure CORS to allow requests from http://localhost:3000
 app.use(cors());
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
-app.use('/admin', AuthAdminS);
-app.use('/admin', AllAdmin);
-app.use('/admin', AuthAdminSLogIn);
-app.use('/admin', Test)
 connectionMongoDB();
 
+//all admin routes
 
+app.use("/admin", adminRoute);
 
-app.listen(5000, () => {
-  console.log('Listen on port 5000');
+app.use("/test", testRoute);
+const port = process.env.PORT || 5111;
+
+app.listen(port, () => {
+  console.log(`Listen on port ${port}`);
 });
