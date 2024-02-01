@@ -6,9 +6,9 @@ import Dialog from "./ui/Dialog";
 import Box from "./ui/Box";
 import ThemBtn from "./ui/ThemBtn";
 import { useTheme } from "../context/ThemeContext";
-
+import { Link } from "react-router-dom";
 export default function Nav() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -34,16 +34,16 @@ export default function Nav() {
             className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
           >
             <li>
-              <span>Home</span>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <span>Log In</span>
               <ul className="p-2">
                 <li>
-                  <span>Student</span>
+                  <Link to="/api/v1/student/login">Student</Link>
                 </li>
                 <li>
-                  <span>Admin</span>
+                  <Link to="/api/v1/admin/login">Admin</Link>
                 </li>
               </ul>
             </li>
@@ -52,28 +52,28 @@ export default function Nav() {
             </li>
           </ul>
         </div>
-        <span className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost text-xl">
           <img
             className="h-10 object-center"
             src={theme === "light" ? Logo : LogoDark}
             alt=""
           />
-        </span>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <span>Home</span>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <details>
+            <details className="">
               <summary>Log in</summary>
-              <ul className="p-2">
+              <ul className="p-2 dark:bg-gray-600 dark:text-gray-200">
                 <li>
-                  <span>Student</span>
+                  <Link to="/api/v1/student/login">Student</Link>
                 </li>
                 <li>
-                  <span>Admin</span>
+                  <Link to="/api/v1/admin/login">Admin</Link>
                 </li>
               </ul>
             </details>
@@ -84,7 +84,7 @@ export default function Nav() {
         </ul>
       </div>
       <div className="navbar-end">
-        <Box className="flex flex-row gap-5">
+        <Box className="flex flex-row gap-5 pe-5">
           <Dialog title="Register">
             <Register />
           </Dialog>

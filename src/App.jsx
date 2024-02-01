@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import Nav from "./components/Nav";
+import { Home, Login, Register } from "./pages";
+import Layout from "./components/Layout";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
-     <Nav/>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/api/v1/">
+            <Route path="admin/login" element={<Login />} />
+            <Route path="student/login" element={<Login />} />
+          </Route>
+        </Routes>
+      </Layout>
     </>
   );
 }

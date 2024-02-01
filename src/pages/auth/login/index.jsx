@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Box from "../../../components/ui/Box";
+import Input from "../../../components/ui/Input";
+import Button from "../../../components/ui/Button";
 
 export default function Login() {
   const [userDetails, setUserDetails] = useState({
@@ -12,10 +15,10 @@ export default function Login() {
   };
 
   return (
-    <Box className="flex h-screen flex-col items-center justify-center gap-4 ">
+    <Box className="flex h-[calc(82vh-66px)] flex-col items-center justify-center gap-4 ">
       <Box>
         <Box className="text-center">
-          <h1 className="pb-10 text-4xl font-semibold ">Register</h1>
+          <h1 className="pb-10 text-4xl font-semibold ">Login</h1>
         </Box>
         <form
           onSubmit={handleSubmit}
