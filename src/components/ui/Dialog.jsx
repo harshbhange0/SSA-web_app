@@ -11,13 +11,12 @@ export default function Dialog({ title, children }) {
       </button>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          {" "}
-          {children}
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
               ✕
             </button>
           </form>
+          {children}
         </div>
       </dialog>
     </>
