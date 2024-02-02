@@ -80,7 +80,7 @@ export default function Nav() {
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
           <img
-            className="h-10 object-center"
+            className="hidden h-10 object-contain sm:block sm:w-20"
             src={theme === "light" ? Logo : LogoDark}
             alt=""
           />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dashboard, Home, Login, Register } from "./pages";
+import { Dashboard, Home, Login, NotFoundPage, Register } from "./pages";
 import Layout from "./components/Layout";
 import { Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -31,6 +31,7 @@ function App() {
           <Route path="/auth/v1/">
             <Route path=":url/dashboard" element={<Dashboard />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
     </>

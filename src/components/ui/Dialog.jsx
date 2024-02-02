@@ -9,8 +9,8 @@ export default function Dialog({ title, children }) {
       >
         {title}
       </button>
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
+      <dialog id="my_modal_1" className=" glass modal">
+        <div className=" modal-box dark:border dark:border-gray-500  dark:shadow dark:shadow-purple-300">
           <form method="dialog">
             <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
               ✕
