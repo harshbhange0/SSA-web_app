@@ -6,9 +6,21 @@ import Dialog from "./ui/Dialog";
 import Box from "./ui/Box";
 import ThemBtn from "./ui/ThemBtn";
 import { useTheme } from "../context/ThemeContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "./ui/Button";
+import useCheckUser from "../hooks/useCheckUser";
 export default function Nav() {
+  const isAuth = useCheckUser();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(
+    localStorage.getItem("userIs") ? localStorage.getItem("userIs") : "",
+  );
   const { theme } = useTheme();
+  useEffect(() => {
+    if (!user == "log in") {
+      setUser(localStorage.getItem("userId"));
+    }
+  }, [user]);
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -36,16 +48,30 @@ export default function Nav() {
             <li>
               <Link to="/">Home</Link>
             </li>
+            {isAuth && (
+              <li>
+                <Link to={`/auth/v1/${user}/dashboard`}>Dashboard</Link>
+              </li>
+            )}
             <li>
-              <span>Log In</span>
-              <ul className="p-2">
-                <li>
-                  <Link to="/api/v1/student/login">Student</Link>
-                </li>
-                <li>
-                  <Link to="/api/v1/admin/login">Admin</Link>
-                </li>
-              </ul>
+              {user ? (
+                <Button
+                  onClick={() => {
+                    localStorage.removeItem("userIs");
+                    navigate("/");
+                    location.reload();
+                  }}
+                >
+                  Log Out
+                </Button>
+              ) : (
+                <>
+                  <span>Log In</span>
+                  <ul className="p-2">
+                    <IsUser user={user} />
+                  </ul>
+                </>
+              )}
             </li>
             <li>
               <span>About</span>
@@ -65,18 +91,30 @@ export default function Nav() {
           <li>
             <Link to="/">Home</Link>
           </li>
+          {isAuth && (
+            <li>
+              <Link to={`/auth/${user}/dashboard`}>Dashboard</Link>
+            </li>
+          )}
           <li>
-            <details className="">
-              <summary>Log in</summary>
-              <ul className="p-2 dark:bg-gray-600 dark:text-gray-200">
-                <li>
-                  <Link to="/api/v1/student/login">Student</Link>
-                </li>
-                <li>
-                  <Link to="/api/v1/admin/login">Admin</Link>
-                </li>
-              </ul>
-            </details>
+            {user ? (
+              <Button
+                onClick={() => {
+                  localStorage.removeItem("userIs");
+                  navigate("/");
+                  location.reload();
+                }}
+              >
+                Log Out
+              </Button>
+            ) : (
+              <details className="">
+                <summary>Log in</summary>
+                <ul className="p-2 dark:bg-gray-600 dark:text-gray-200">
+                  <IsUser user={user} />
+                </ul>
+              </details>
+            )}
           </li>
           <li>
             <span>About</span>
@@ -94,3 +132,17 @@ export default function Nav() {
     </div>
   );
 }
+
+const IsUser = ({ user }) => {
+  return (
+    <>
+      <li>
+        <Link to="/api/v1/student/login">Student</Link>
+      </li>
+
+      <li>
+        <Link to="/api/v1/admin/login">Admin</Link>
+      </li>
+    </>
+  );
+};

@@ -1,6 +1,7 @@
 import Home from "./home"
 import Admin from "./admin"
 import Student from "./student"
+import Dashboard from "./dashboard"
 import { Login, Register } from "./auth"
 
 export {
@@ -8,5 +9,6 @@ export {
     Admin,
     Student,
     Login,
-    Register
+    Register,
+    Dashboard
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Home, Login, Register } from "./pages";
+import { Dashboard, Home, Login, Register } from "./pages";
 import Layout from "./components/Layout";
 import { Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -7,8 +7,6 @@ import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useCheckUser from "./hooks/useCheckUser";
 function App() {
-  const isUserLoggedIn = useCheckUser();
-  console.log(isUserLoggedIn);
   return (
     <>
       <ToastContainer
@@ -28,8 +26,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/api/v1/">
-            <Route path="admin/login" element={<Login />} />
-            <Route path="student/login" element={<Login />} />
+            <Route path=":url/login" element={<Login />} />
+          </Route>
+          <Route path="/auth/v1/">
+            <Route path=":url/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
       </Layout>
