@@ -1,4 +1,5 @@
 import Home from "./home"
+import About from "./about"
 import Admin from "./admin"
 import Student from "./student"
 import Dashboard from "./dashboard"
@@ -7,10 +8,11 @@ import { Login, Register } from "./auth"
 
 export {
     Home,
+    About,
+    Login,
     Admin,
     Student,
-    Login,
     Register,
     Dashboard,
-    NotFoundPage
+    NotFoundPage,
 }

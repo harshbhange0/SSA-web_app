@@ -74,7 +74,7 @@ export default function Nav() {
               )}
             </li>
             <li>
-              <span>About</span>
+              <Link to="/about">About</Link>
             </li>
           </ul>
         </div>
@@ -117,7 +117,7 @@ export default function Nav() {
             )}
           </li>
           <li>
-            <span>About</span>
+            <Link to="/about">About</Link>
           </li>
         </ul>
       </div>

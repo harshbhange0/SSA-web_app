@@ -49,7 +49,7 @@ export default function Register() {
     }
   };
   return (
-    <Box className="flex  flex-col items-center justify-center gap-4 ">
+    <Box className=" flex  flex-col items-center justify-center gap-4">
       <Box>
         <Box className="text-center">
           <h1 className="pb-10 text-4xl font-semibold ">Register</h1>
